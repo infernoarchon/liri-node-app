@@ -5,6 +5,7 @@ const axios = require("axios")
 const Spotify = require('node-spotify-api')
 const moment = require('moment');
 const chalk = require('chalk');
+const fs = require("fs")
 
 // Global Variables
 var spotify = new Spotify(keys.spotify);
@@ -51,6 +52,26 @@ var liri = {
                 userQuery = input.join(' ')
                 liri.moviequery()   
             }
+        }
+        if(process.argv[2] === "do-what-it-says") {
+            fs.readFile("random.txt", "utf8", function(err,data) {
+                if(err) {
+                    console.log(err)
+                }
+                dataArr = data.split(",")
+                if(dataArr[0] === "spotify-this-song") {
+                    userQuery = dataArr[1].replace(/"/g,"")
+                    liri.spotifyquery()
+                }
+                if(dataArr[0] === "movie-this") {
+                    userQuery = dataArr[1].replace(/"/g,"")
+                    liri.moviequery()
+                }
+                if(dataArr[0] === "concert-this") {
+                    userQuery = dataArr[1].replace(/"/g,"")
+                    liri.bandquery()
+                }
+            })
         }
     },
     spotifyquery : function() {
