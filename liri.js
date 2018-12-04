@@ -3,6 +3,7 @@ require("dotenv").config();
 const keys = require("./keys.js")
 const axios = require("axios")
 const Spotify = require('node-spotify-api')
+const moment = require('moment');
 const chalk = require('chalk');
 
 // Global Variables
@@ -53,7 +54,7 @@ var liri = {
         }
     },
     spotifyquery : function() {
-        spotify.search({ type: 'track', query: userquery, limit: 1 }, function(err, data) {
+        spotify.search({ type: 'track', query: userQuery, limit: 1 }, function(err, data) {
             if (err) {
             return console.log('Error occurred: ' + err);
             }
@@ -64,7 +65,25 @@ var liri = {
         })
     },
     bandquery : function() {
-
+        var queryUrl = "https://rest.bandsintown.com/artists/" + userQuery + "/events?app_id=codingbootcamp";
+        axios.get(queryUrl).then(
+            function(response) {
+                console.log("=======================================")
+                console.log("Upcoming Concerts for " + userQuery)
+                console.log("=======================================")
+                for (var i = 0; i < response.data.length; i++) {
+                console.log(response.data[i].venue.name)
+                console.log(response.data[i].venue.city + ", " + response.data[i].venue.region)
+                var date = moment(response.data[i].datetime).format("dddd, MMMM Do YYYY, h:mm a")
+                console.log(date)
+                console.log("---------------------------------------")
+                // console.log(response.data[0].venue.name)
+                }
+                // console.log
+                // console.log(chalk.underline("Venue") + ": " + response.data.Title);
+                // console.log(chalk.underline("Location") + ": " + response.data.Year);
+                // console.log(chalk.underline("Date") + ": " + response.data.imdbRating);
+        })
     },
     moviequery : function() {
         var queryUrl = "http://www.omdbapi.com/?t=" + userQuery + "&y=&plot=short&apikey=trilogy";
