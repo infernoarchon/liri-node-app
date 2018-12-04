@@ -12,17 +12,6 @@ var userquery = []
 
 // Main App Logic
 var liri = {
-    spotifyquery : function() {
-        spotify.search({ type: 'track', query: userquery, limit: 1 }, function(err, data) {
-            if (err) {
-            return console.log('Error occurred: ' + err);
-            }
-        console.log(chalk.underline("Artist") + ": " + data.tracks.items[0].artists[0].name);
-        console.log(chalk.underline("Song") + ": " + data.tracks.items[0].name);
-        console.log(chalk.underline("Preview URL") + ": " + data.tracks.items[0].preview_url);
-        console.log(chalk.underline("Album") + ": " + data.tracks.items[0].album.name);    
-        })
-    },
     logic : function() {
         if(process.argv[2] === "spotify-this-song") {
             if(process.argv[3] == null) {
@@ -37,6 +26,17 @@ var liri = {
                 liri.spotifyquery()   
             }
         }
+    },
+    spotifyquery : function() {
+        spotify.search({ type: 'track', query: userquery, limit: 1 }, function(err, data) {
+            if (err) {
+            return console.log('Error occurred: ' + err);
+            }
+        console.log(chalk.underline("Artist") + ": " + data.tracks.items[0].artists[0].name);
+        console.log(chalk.underline("Song") + ": " + data.tracks.items[0].name);
+        console.log(chalk.underline("Preview URL") + ": " + data.tracks.items[0].preview_url);
+        console.log(chalk.underline("Album") + ": " + data.tracks.items[0].album.name);    
+        })
     }
 }
 
