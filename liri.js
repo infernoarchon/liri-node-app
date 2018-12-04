@@ -77,12 +77,7 @@ var liri = {
                 var date = moment(response.data[i].datetime).format("dddd, MMMM Do YYYY, h:mm a")
                 console.log(date)
                 console.log("---------------------------------------")
-                // console.log(response.data[0].venue.name)
                 }
-                // console.log
-                // console.log(chalk.underline("Venue") + ": " + response.data.Title);
-                // console.log(chalk.underline("Location") + ": " + response.data.Year);
-                // console.log(chalk.underline("Date") + ": " + response.data.imdbRating);
         })
     },
     moviequery : function() {
