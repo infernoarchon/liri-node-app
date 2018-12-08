@@ -79,43 +79,71 @@ var liri = {
             if (err) {
             return console.log('Error occurred: ' + err);
             }
-                console.log(chalk.underline("Artist") + ": " + data.tracks.items[0].artists[0].name);
-                console.log(chalk.underline("Song") + ": " + data.tracks.items[0].name);
-                console.log(chalk.underline("Preview URL") + ": " + data.tracks.items[0].preview_url);
-                console.log(chalk.underline("Album") + ": " + data.tracks.items[0].album.name);    
+                liri.printDivider()
+                liri.printOutput("Artist", data.tracks.items[0].artists[0].name);
+                liri.printOutput("Song", data.tracks.items[0].name);
+                liri.printOutput("Preview URL", data.tracks.items[0].preview_url);
+                liri.printOutput("Album", data.tracks.items[0].album.name);
+                liri.printDivider()
+                liri.printBareOutput("\n")
         })
     },
     bandquery : function() {
         var queryUrl = "https://rest.bandsintown.com/artists/" + userQuery + "/events?app_id=codingbootcamp";
         axios.get(queryUrl).then(
             function(response) {
-                console.log("=======================================")
-                console.log("Upcoming Concerts for " + userQuery)
-                console.log("=======================================")
+                liri.printDivider()
+                liri.printBareOutput("Upcoming Concerts for " + userQuery)
+                liri.printDivider()
                 for (var i = 0; i < response.data.length; i++) {
-                console.log(response.data[i].venue.name)
-                console.log(response.data[i].venue.city + ", " + response.data[i].venue.region)
-                var date = moment(response.data[i].datetime).format("dddd, MMMM Do YYYY, h:mm a")
-                console.log(date)
-                console.log("---------------------------------------")
+                liri.printBareOutput(response.data[i].venue.name)
+                if(response.data[i].venue.region === "") {
+                    liri.printBareOutput(response.data[i].venue.city + ", " + response.data[i].venue.country)
+                } else{
+                liri.printBareOutput(response.data[i].venue.city + ", " + response.data[i].venue.region)
                 }
+                var date = moment(response.data[i].datetime).format("dddd, MMMM Do YYYY, h:mm a")
+                liri.printBareOutput(date)
+                liri.printDivider()
+                }
+                liri.printBareOutput("\n")
         })
     },
     moviequery : function() {
         var queryUrl = "http://www.omdbapi.com/?t=" + userQuery + "&y=&plot=short&apikey=trilogy";
         axios.get(queryUrl).then(
             function(response) {
-                console.log(chalk.underline("Title") + ": " + response.data.Title);
-                console.log(chalk.underline("Year") + ": " + response.data.Year);
-                console.log(chalk.underline("IMDB Rating") + ": " + response.data.imdbRating);
-                console.log(chalk.underline("RT Rating") + ": " + Object.values(response.data.Ratings[1]).slice(1));
-                console.log(chalk.underline("Country") + ": " + response.data.Country);
-                console.log(chalk.underline("Language") + ": " + response.data.Language);
-                console.log(chalk.underline("Plot") + ": " + response.data.Plot);
-                console.log(chalk.underline("Actors") + ": " + response.data.Actors);
-
+                liri.printDivider()
+                liri.printOutput("Title", response.data.Title);
+                liri.printOutput("Year", response.data.Year);
+                liri.printOutput("IMDB Rating", response.data.imdbRating);
+                liri.printOutput("RT Rating", Object.values(response.data.Ratings[1]).slice(1));
+                liri.printOutput("Country", response.data.Country);
+                liri.printOutput("Language", response.data.Language);
+                liri.printOutput("Plot", response.data.Plot);
+                liri.printOutput("Actors", response.data.Actors);
+                liri.printDivider()
+                liri.printBareOutput("\n")
             }
         );
+    },
+    printOutput : function(x,y) {
+        console.log(chalk.underline(x) + ": " + y)
+        fs.appendFileSync('log.txt', x + ": " + y + "\n", function (err) {
+            if (err) throw err;
+          });
+    },
+    printDivider : function() {
+        console.log("------------------------------------------------------------------------------")
+        fs.appendFileSync('log.txt', "-----------------------------------------------------------------------------\n", function (err) {
+            if (err) throw err;
+          });
+    },
+    printBareOutput : function(x) {
+        console.log(x)
+        fs.appendFileSync('log.txt', x + "\n", function (err) {
+            if (err) throw err;
+          });
     }
 }
 
