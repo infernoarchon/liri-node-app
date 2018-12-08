@@ -7,7 +7,6 @@ A node-based CLI application that helps you find Spotify, Bandsintown, and OMDB 
 1. Clone directory and run npm install
 2. To use Spotify queries, you will need an API key to create a `.env` file with the following values:
 
-`Spotify API keys`\
 `SPOTIFY_ID=your-spotify-id`\
 `SPOTIFY_SECRET=your-spotify-secret`
 
