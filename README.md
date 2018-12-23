@@ -1,7 +1,7 @@
 # LIRI Bot
 A node-based CLI application that helps you find Spotify, Bandsintown, and OMDB information.
 
-![Liri Bot Interface](https://www.alanchen.com/wp-content/uploads/2018/12/liribotthumb.jpg)
+![Liri Bot Interface](https://www.alanchen.com/wp-content/uploads/2018/12/lirithumb3.png)
 
 ## Setup
 1. Clone directory and run npm install
